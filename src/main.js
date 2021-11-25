@@ -6,7 +6,7 @@ import { getStatsMarkup } from './view/stats-view.js';
 import { getUserRankMarkup } from './view/user-rank-view.js';
 import { getSortMarkup } from './view/list-sort-view.js';
 import { getListMarkup } from './view/list-view.js';
-import { getLoadingMarkup } from './loading-view.js';
+import { getLoadingMarkup } from './view/loading-view.js';
 import { getPopupMarkup } from './view/popup-view.js';
 import { renderComponents } from './render.js';
 

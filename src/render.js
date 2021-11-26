@@ -7,12 +7,12 @@ export const renderPosition = {
 
 const siteMainElement = document.querySelector('.main');
 
-const renderDomComponent = (container, component, location) => {
-  container.insertAdjacentHTML(location, component);
+const renderDomElement = (container, markupText, location) => {
+  container.insertAdjacentHTML(location, markupText);
 };
 
-export const renderComponents = (arr) => {
-  arr.forEach((component) => {
-    renderDomComponent(siteMainElement, component, renderPosition.BEFOREEND);
+export const renderElements = (elements) => {
+  elements.forEach((element) => {
+    renderDomElement(siteMainElement, element, renderPosition.BEFOREEND);
   });
 };

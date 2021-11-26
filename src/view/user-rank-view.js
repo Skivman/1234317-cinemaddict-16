@@ -1,4 +1,4 @@
-export const getUserRankMarkup = () => (
+export const getUserRankTemplate = () => (
   `<section class="statistic">
     <p class="statistic__rank">
       Your rank

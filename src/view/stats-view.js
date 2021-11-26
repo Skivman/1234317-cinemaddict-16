@@ -1,4 +1,4 @@
-export const getStatsMarkup = () => (
+export const getStatsTemplate = () => (
   `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
 

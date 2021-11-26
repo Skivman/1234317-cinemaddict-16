@@ -1,26 +1,25 @@
-import { getEmptyListMarkup } from './view/list-empty-view.js';
-import { getFilterMarkup } from './view/list-filter-view.js';
-import { getNoExtraFilterMarkup } from './view/list-no-extra-view.js';
-import { getNavigationMarkup } from './view/navigation-view.js';
-import { getStatsMarkup } from './view/stats-view.js';
-import { getUserRankMarkup } from './view/user-rank-view.js';
-import { getSortMarkup } from './view/list-sort-view.js';
-import { getListMarkup } from './view/list-view.js';
-import { getLoadingMarkup } from './view/loading-view.js';
-import { getPopupMarkup } from './view/popup-view.js';
-import { renderComponents } from './render.js';
+import { getEmptyListTemplate } from './view/list-empty-view.js';
+import { getFilterTemplate } from './view/list-filter-view.js';
+import { getNoExtraFilterTemplate } from './view/list-no-extra-view.js';
+import { getNavigationTemplate } from './view/navigation-view.js';
+import { getStatsTemplate } from './view/stats-view.js';
+import { getUserRankTemplate } from './view/user-rank-view.js';
+import { getSortTemplate } from './view/list-sort-view.js';
+import { getListTemplate } from './view/list-view.js';
+import { getLoadingTemplate } from './view/loading-view.js';
+import { getPopupTemplate } from './view/popup-view.js';
+import { renderElements } from './render.js';
 
-
-const elementsArray = [getUserRankMarkup(),
-  getStatsMarkup(),
-  getNavigationMarkup(),
-  getFilterMarkup(),
-  getEmptyListMarkup(),
-  getNoExtraFilterMarkup(),
-  getSortMarkup(),
-  getListMarkup(),
-  getLoadingMarkup(),
-  getPopupMarkup()
+const elementsArray = [getUserRankTemplate(),
+  getStatsTemplate(),
+  getNavigationTemplate(),
+  getFilterTemplate(),
+  getEmptyListTemplate(),
+  getNoExtraFilterTemplate(),
+  getSortTemplate(),
+  getListTemplate(),
+  getLoadingTemplate(),
+  getPopupTemplate()
 ];
 
-renderComponents(elementsArray);
+renderElements(elementsArray);

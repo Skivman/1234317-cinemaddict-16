@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 
 //Утилитарная функция случайного индекса массива
 const getRandomIndex = (arr) => arr[(Math.floor(Math.random() * arr.length))];
+//Генерация случайного заданного числа
+const TIMES = (times) => Math.floor(Math.random() * times);
 //Наименование фильмов
 const filmTitles = [
   'The Dance of Life',
@@ -36,27 +38,48 @@ const emojiForMockComments = [
   'smile.png'
 ];
 
-const authors = [
+const names = [
   'Bob',
   'Arthur',
   'John',
-  'Nigel'
+  'Nigel',
+  'Amanda',
+  'Prakash',
+  'Howard'
 ];
+
+const surnames = [
+  'Johnson',
+  'O\'Bryen',
+  'Aard',
+  'Pickwickston',
+  'Patil',
+  'Merryweather',
+  'Snipperson'
+];
+
+const generateName = () => `${getRandomIndex(names)} ${getRandomIndex(surnames)}`;
 
 //Рейтинг
 const generateRating = () => (Math.random() * 10).toFixed(1);
 //Случайная генерация года
-const generateYear = () => `19${Math.floor(Math.random() * 90)}`;
+const generateYear = () => {
+  const randNum = Math.floor(Math.random() * 90);
+  const digits = randNum > 10
+  ? `19${randNum}`
+  : `190${randNum}`;
+return digits;
+};
 //Случайная генерация продолжительности
 const generateDuration = () => `0${Math.floor(Math.random() * 3)} h ${Math.floor(Math.random() * 59)} min`;
 //Жанры
 const genres = ['Comedy', 'Musical', 'Horror', 'Western'];
 
 //Генерация комментариев
-const generateComment = () => ({
+export const generateComment = () => ({
   img: `/public/images/emoji/${getRandomIndex(emojiForMockComments)}`,
   text: getRandomIndex(descriptions),
-  author: getRandomIndex(authors),
+  author: generateName(),
   date: dayjs().format('DD/MM/YYYY'),
 });
 
@@ -73,3 +96,18 @@ export const renderMockFilmCard = () => ({
   comments: `${Math.floor(Math.random() * 10)} comments`,
 });
 
+//Описание структуры данных для попапа
+export const renderPopupMockData = (filmCard) => ({
+  poster: filmCard.poster,
+  age: `1${Math.floor(Math.random() * 10)}+`,
+  title: filmCard.title,
+  rating: filmCard.rating,
+  director: generateName(),
+  writers: Array.from({length: TIMES(3)}, generateName),
+  actors: Array.from({length: TIMES(4)}, generateName),
+  release: filmCard.year,
+  runtime: 'runtime',
+  country: 'The United Regions of the Middle-East South Africa',
+  genres: 'genres',
+  description: filmCard.description,
+}) 

@@ -1,8 +1,6 @@
 export const renderFilmCard = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments} = card;
   return `
-    <section class="films-list">    
-      <div class="films-list__container">
       <article class="film-card">
             <a class="film-card__link">
               <h3 class="film-card__title">${title}</h3>
@@ -21,7 +19,5 @@ export const renderFilmCard = (card) => {
               <button class="film-card__controls-item film-card__controls-item--mark-as-watched" type="button">Mark as watched</button>
               <button class="film-card__controls-item film-card__controls-item--favorite" type="button">Mark as favorite</button>
             </div>
-          </article>
-      </div>
-      </section>`;
+          </article>`
 };

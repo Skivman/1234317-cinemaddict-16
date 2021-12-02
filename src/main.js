@@ -7,19 +7,22 @@ import { getUserRankTemplate } from './view/user-rank-view.js';
 import { getSortTemplate } from './view/list-sort-view.js';
 import { getListTemplate } from './view/list-view.js';
 import { getLoadingTemplate } from './view/loading-view.js';
-import { getPopupTemplate } from './view/popup-view.js';
-import { renderElements } from './render.js';
+import { renderPopupTemplate } from './view/popup-view.js';
+import { renderElements, renderDomElement, renderPosition, siteMainElement } from './render.js';
+import { renderMockFilmCard, generateComment, renderPopupMockData } from './mock/mock-data.js';
+import { renderFilmCard } from './view/film-card-view.js';
 
-const elementsArray = [getUserRankTemplate(),
-  getStatsTemplate(),
-  getNavigationTemplate(),
-  getFilterTemplate(),
-  getEmptyListTemplate(),
-  getNoExtraFilterTemplate(),
-  getSortTemplate(),
-  getListTemplate(),
-  getLoadingTemplate(),
-  getPopupTemplate()
-];
+const mockCards = Array.from({length: 5}, renderMockFilmCard);
 
-renderElements(elementsArray);
+
+ const renderFilmsInContainer = (cards) => {
+ renderDomElement(siteMainElement, getListTemplate(), renderPosition.BEFOREEND);
+ const mockFilmCardContainer = document.querySelector('.films-list__container');
+ for (let i = 0; i < cards.length; i++) {
+      renderDomElement(mockFilmCardContainer, renderFilmCard(cards[i]), renderPosition.BEFOREEND);
+ };
+    renderDomElement(siteMainElement, renderPopupTemplate(renderPopupMockData(cards[0])), renderPosition.BEFOREEND);
+ };
+
+ renderFilmsInContainer(mockCards);
+ 

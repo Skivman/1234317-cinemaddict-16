@@ -10,19 +10,20 @@ import { getLoadingTemplate } from './view/loading-view.js';
 import { renderPopupTemplate } from './view/popup-view.js';
 import { renderElements, renderDomElement, renderPosition, siteMainElement } from './render.js';
 import { renderMockFilmCard, generateComment, renderPopupMockData } from './mock/mock-data.js';
-import { renderFilmCard } from './view/film-card-view.js';
+import { renderFilmCard } from './film-card-template.js';
 import { renderMockComment } from './view/popup-comment-view.js';
 
 //Массив моковых карточек с описанием фильмов
-const mockCards = Array.from({length: 5}, renderMockFilmCard);
+const mockCards = Array.from({length: 15}, renderMockFilmCard);
 
 //Общая функция для отрисовки карточек на странице и добавлению попапа
  const renderFilmsInContainer = (cards) => {
+    const MAX_CARDS = 5;
  renderDomElement(siteMainElement, getListTemplate(), renderPosition.BEFOREEND);
  const mockFilmCardContainer = document.querySelector('.films-list__container');
- cards.forEach((card) => {
-   renderDomElement(mockFilmCardContainer, renderFilmCard(card), renderPosition.BEFOREEND);
- });
+ for (let i = 0; i < MAX_CARDS; i++) {
+   renderDomElement(mockFilmCardContainer, renderFilmCard(cards[i]), renderPosition.BEFOREEND);
+ };
  };
 //Функция отрисовки попапа
  const renderPopup = (cards) => {
@@ -40,8 +41,9 @@ const mockCards = Array.from({length: 5}, renderMockFilmCard);
          popup.classList.add('visually-hidden');
       }
    })
- }
+ };
 
  renderFilmsInContainer(mockCards);
  renderPopup(mockCards);
+ showExtra(mockCards);
  

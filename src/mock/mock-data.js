@@ -75,13 +75,16 @@ const generateDuration = () => `0${Math.floor(Math.random() * 3)} h ${Math.floor
 //Жанры
 const genres = ['Comedy', 'Musical', 'Horror', 'Western'];
 
-//Генерация комментариев
+//Генерация комментария
 export const generateComment = () => ({
-  img: `/public/images/emoji/${getRandomIndex(emojiForMockComments)}`,
+  img: `${getRandomIndex(emojiForMockComments)}`,
   text: getRandomIndex(descriptions),
   author: generateName(),
   date: dayjs().format('DD/MM/YYYY'),
 });
+
+// Генерация массива комментариев
+export const generateComments = (comment) => Array.from({length: TIMES(5)}, comment(generateComment));
 
 
 //Моковая карточка фильма
@@ -106,7 +109,7 @@ export const renderPopupMockData = (filmCard) => ({
   writers: Array.from({length: TIMES(3)}, generateName),
   actors: Array.from({length: TIMES(4)}, generateName),
   release: filmCard.year,
-  runtime: 'runtime',
+  runtime: filmCard.duration,
   country: 'The United Regions of the Middle-East South Africa',
   genres: 'genres',
   description: filmCard.description,

@@ -14,7 +14,7 @@ import { renderFilmCard } from './film-card-template.js';
 import { renderMockComment } from './view/popup-comment-view.js';
 
 //Массив моковых карточек с описанием фильмов
-const mockCards = Array.from({length: 15}, renderMockFilmCard);
+const mockCards = Array.from({length: 24}, renderMockFilmCard);
 const MAX_CARDS = 5;
 
 
@@ -28,12 +28,21 @@ const renderFilmsInContainer = (cards) => {
     renderDomElement(mockFilmCardContainer, renderFilmCard(cards[i]), renderPosition.BEFOREEND);
   }
   //Логика кнопки 'Show more'
+  let clickNum = 0
   let offset = MAX_CARDS;
   showMoreButton.addEventListener('click', () => {
+    clickNum++
     const nextFive = cards.slice(offset, offset + MAX_CARDS);
-    if (nextFive.length === 0) {
+    if (cards.length % MAX_CARDS === 0) {
+    if (clickNum === (cards.length / MAX_CARDS) - 1) {
       showMoreButton.classList.add('visually-hidden');
+    };
+    } else {
+      if (clickNum === Math.floor(cards.length / MAX_CARDS)) {
+        showMoreButton.classList.add('visually-hidden');
+      }
     }
+      
     nextFive.forEach((card) => {
       renderDomElement(mockFilmCardContainer, renderFilmCard(card), renderPosition.BEFOREEND);
     });

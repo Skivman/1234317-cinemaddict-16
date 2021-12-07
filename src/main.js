@@ -31,22 +31,14 @@ const renderFilmsInContainer = (cards) => {
   let clickNum = 0
   let offset = MAX_CARDS;
   showMoreButton.addEventListener('click', () => {
-    clickNum++
-    const nextFive = cards.slice(offset, offset + MAX_CARDS);
-    if (cards.length % MAX_CARDS === 0) {
-    if (clickNum === (cards.length / MAX_CARDS) - 1) {
-      showMoreButton.classList.add('visually-hidden');
-    };
-    } else {
-      if (clickNum === Math.floor(cards.length / MAX_CARDS)) {
-        showMoreButton.classList.add('visually-hidden');
-      }
-    }
-      
+    const nextFive = cards.slice(offset, offset + MAX_CARDS); 
     nextFive.forEach((card) => {
       renderDomElement(mockFilmCardContainer, renderFilmCard(card), renderPosition.BEFOREEND);
     });
     offset += MAX_CARDS;
+    if (offset >= cards.length) {
+      showMoreButton.classList.add('visually-hidden');
+    }
   });
 };
 //Функция отрисовки попапа

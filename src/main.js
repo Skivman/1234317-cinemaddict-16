@@ -28,7 +28,6 @@ const renderFilmsInContainer = (cards) => {
     renderDomElement(mockFilmCardContainer, renderFilmCard(cards[i]), renderPosition.BEFOREEND);
   }
   //Логика кнопки 'Show more'
-  let clickNum = 0
   let offset = MAX_CARDS;
   showMoreButton.addEventListener('click', () => {
     const nextFive = cards.slice(offset, offset + MAX_CARDS); 
@@ -43,20 +42,25 @@ const renderFilmsInContainer = (cards) => {
 };
 //Функция отрисовки попапа
 const renderPopup = (cards) => {
-  renderDomElement(siteMainElement, renderPopupTemplate(renderPopupMockData(cards[0])), renderPosition.BEFOREEND);
-  const popup = document.querySelector('.film-details');
-  const popupCloseButton = document.querySelector('.film-details__close-btn');
-  const commentsList = document.querySelector('.film-details__comments-list');
-  const randomComment = renderMockComment(generateComment());
-  renderDomElement(commentsList, randomComment, renderPosition.BEFOREEND);
-  popupCloseButton.addEventListener('click', () => {
-    popup.classList.add('visually-hidden');
-  });
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      popup.classList.add('visually-hidden');
-    }
-  });
+  for (let i = 0; i < cards.length; i++) {
+    const displayedCards = Array.from(document.querySelectorAll('.film-card'));
+    displayedCards[i].addEventListener('click', () => {
+      renderDomElement(siteMainElement, renderPopupTemplate(renderPopupMockData(cards[i])), renderPosition.BEFOREEND);
+      const popup = document.querySelector('.film-details');
+      const popupCloseButton = document.querySelector('.film-details__close-btn');
+      const commentsList = document.querySelector('.film-details__comments-list');
+      const randomComment = renderMockComment(generateComment());
+      renderDomElement(commentsList, randomComment, renderPosition.BEFOREEND);
+      popupCloseButton.addEventListener('click', () => {
+        popup.classList.add('visually-hidden');
+      });
+      document.addEventListener('keydown', (evt) => {
+        if (evt.key === 'Escape') {
+          popup.classList.add('visually-hidden');
+        }
+      });
+    });
+  }
 };
 
 renderFilmsInContainer(mockCards);

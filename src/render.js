@@ -5,9 +5,9 @@ export const renderPosition = {
   AFTEREND: 'afterend',
 };
 
-const siteMainElement = document.querySelector('.main');
+export const siteMainElement = document.querySelector('.main');
 
-const renderDomElement = (container, markupText, location) => {
+export const renderDomElement = (container, markupText, location) => {
   container.insertAdjacentHTML(location, markupText);
 };
 

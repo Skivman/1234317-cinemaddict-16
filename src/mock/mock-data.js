@@ -66,9 +66,9 @@ const generateRating = () => (Math.random() * 10).toFixed(1);
 const generateYear = () => {
   const randNum = Math.floor(Math.random() * 90);
   const digits = randNum > 10
-  ? `19${randNum}`
-  : `190${randNum}`;
-return digits;
+    ? `19${randNum}`
+    : `190${randNum}`;
+  return digits;
 };
 //Случайная генерация продолжительности
 const generateDuration = () => `0${Math.floor(Math.random() * 3)} h ${Math.floor(Math.random() * 59)} min`;
@@ -113,4 +113,4 @@ export const renderPopupMockData = (filmCard) => ({
   country: 'The United Regions of the Middle-East South Africa',
   genres: 'genres',
   description: filmCard.description,
-}) 
+});

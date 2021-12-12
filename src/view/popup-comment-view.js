@@ -1,6 +1,6 @@
 export const renderMockComment = (comment) => {
-const {img, text, author, date} = comment;
-return `<li class="film-details__comment">
+  const {img, text, author, date} = comment;
+  return `<li class="film-details__comment">
             <span class="film-details__comment-emoji">
               <img src="./images/emoji/${img}" width="55" height="55" alt="emoji-smile">
             </span>
@@ -12,5 +12,5 @@ return `<li class="film-details__comment">
                 <button class="film-details__comment-delete">Delete</button>
               </p>
             </div>
-          </li>`
+          </li>`;
 };

@@ -110,5 +110,5 @@ export const renderPopupTemplate = (popup) => {
       </section>
     </div>
   </form>
-</section>`
+</section>`;
 };

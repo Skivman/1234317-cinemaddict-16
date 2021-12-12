@@ -100,7 +100,7 @@ export const renderMockFilmCard = () => ({
 });
 
 //Описание структуры данных для попапа
-export const renderPopupMockData = (filmCard) => ({
+export const renderMockPopup = (filmCard) => ({
   poster: filmCard.poster,
   age: `1${Math.floor(Math.random() * 10)}+`,
   title: filmCard.title,

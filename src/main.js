@@ -9,7 +9,7 @@ import { getListTemplate } from './view/list-no-extra-view.js';
 // import { getLoadingTemplate } from './view/loading-view.js';
 import { renderPopupTemplate } from './view/popup-view.js';
 import { renderDomElement, renderPosition, siteMainElement } from './render.js';
-import { renderMockFilmCard, renderPopupMockData } from './mock/mock-data.js';
+import { renderMockFilmCard, renderMockPopup } from './mock/mock-data.js';
 import { renderFilmCard } from './film-card-template.js';
 // import { renderMockComment } from './view/popup-comment-view.js';
 
@@ -36,7 +36,7 @@ showMoreButton.addEventListener('click', () => {
   }
 });
 
-renderDomElement(siteMainElement, renderPopupTemplate(renderPopupMockData(mockCards[0])), renderPosition.BEFOREEND);
+renderDomElement(siteMainElement, renderPopupTemplate(renderMockPopup(mockCards[0])), renderPosition.BEFOREEND);
 const popupWindow = document.querySelector('.film-details');
 const closePopup = document.querySelector('.film-details__close-btn');
 closePopup.addEventListener('click', () => {

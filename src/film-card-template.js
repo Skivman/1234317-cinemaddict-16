@@ -1,9 +1,8 @@
-import { createElement } from "./render";
+import { createElement } from "./render.js";
 
 const renderFilmCard = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments} = card;
-  return `
-      <article class="film-card">
+  return `<article class="film-card">
             <a class="film-card__link">
               <h3 class="film-card__title">${title}</h3>
               <p class="film-card__rating">${rating}</p>

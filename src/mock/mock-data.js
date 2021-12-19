@@ -86,31 +86,19 @@ export const generateComment = () => ({
 // Генерация массива комментариев
 export const generateComments = (comment) => Array.from({length: TIMES(5)}, comment(generateComment));
 
-
-//Моковая карточка фильма
-export const renderMockFilmCard = () => ({
+//Описание структуры данных для карточки
+export const generateCard = () => ({
+  poster: `${getRandomIndex(posters)}`,
+  age: `1${Math.floor(Math.random() * 10)}+`,
   title: getRandomIndex(filmTitles),
   rating: generateRating(),
-  year: generateYear(),
-  duration: generateDuration(),
-  genre: getRandomIndex(genres),
-  poster: `${getRandomIndex(posters)}`,
-  description: getRandomIndex(descriptions),
-  comments: `${Math.floor(Math.random() * 10)} comments`,
-});
-
-//Описание структуры данных для попапа
-export const renderMockPopup = (filmCard) => ({
-  poster: filmCard.poster,
-  age: `1${Math.floor(Math.random() * 10)}+`,
-  title: filmCard.title,
-  rating: filmCard.rating,
   director: generateName(),
   writers: Array.from({length: TIMES(3)}, generateName),
   actors: Array.from({length: TIMES(4)}, generateName),
-  release: filmCard.year,
-  runtime: filmCard.duration,
+  year: generateYear(),
+  duration: generateDuration(),
   country: 'The United Regions of the Middle-East South Africa',
-  genres: 'genres',
-  description: filmCard.description,
+  genres: `${getRandomIndex(genres)}`,
+  description: getRandomIndex(descriptions),
+  comments: `${Math.floor(Math.random() * 10)} comments`,
 });

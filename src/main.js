@@ -1,50 +1,80 @@
-// import { getEmptyListTemplate } from './view/list-empty-view.js';
-// import { getFilterTemplate } from './view/list-filter-view.js';
-// import { getNoExtraFilterTemplate } from './view/list-no-extra-view.js';
-import { getNavigationTemplate } from './view/navigation-view.js';
-import { getStatsTemplate } from './view/stats-view.js';
-// import { getUserRankTemplate } from './view/user-rank-view.js';
-// import { getSortTemplate } from './view/list-sort-view.js';
 import ListView from './view/list-no-extra-view.js';
-// import { getLoadingTemplate } from './view/loading-view.js';
-import { renderPopupTemplate } from './view/popup-view.js';
-import { renderTemplate, renderPosition, renderElement } from './render.js';
-import { renderMockFilmCard, renderMockPopup } from './mock/mock-data.js';
+import { renderPosition, render } from './render.js';
+import { generateCard } from './mock/mock-data.js';
 import CardView from './film-card-template.js';
 import ShowMore from './view/show-more-button-view.js';
-// import { renderMockComment } from './view/popup-comment-view.js';
+import PopupView from './view/popup-view.js';
+import NavigationView from './view/navigation-view.js';
+import SortView from './view/list-sort-view.js';
+import EmptyList from './view/list-empty-view.js';
+
+const renderCard = (cardListElement, card) => {
+  const cardComponent = new CardView(card);
+  const cardPopup = new PopupView(card);
+
+  const openPopup = () => {
+    cardListElement.appendChild(cardPopup.element);
+  };
+
+  const closePopup = () => {
+    cardListElement.removeChild(cardPopup.element);
+  };
+
+  const onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      closePopup();
+      document.removeEventListener('keydown', onEscKeyDown);
+    }
+  };
+
+  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+    openPopup();
+    document.addEventListener('keydown', onEscKeyDown);
+  });
+
+  cardPopup.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+    closePopup();
+    document.removeEventListener('keydown', onEscKeyDown);
+  });
+
+  render(cardListElement, cardComponent.element, renderPosition.BEFOREEND);
+};
 
 //Массив моковых карточек с описанием фильмов
-const mockCards = Array.from({length: 24}, renderMockFilmCard);
+const FILM_QUANTITY = 15;
+const mockCards = Array.from({length: FILM_QUANTITY}, generateCard);
 const MAX_CARDS = 5;
 const siteMainElement = document.querySelector('.main');
 
-const listView = new ListView().element;
-renderElement(siteMainElement, listView, renderPosition.BEFOREEND);
-const cardContainer = listView.querySelector('.films-list__container');
-for (let i = 0; i < MAX_CARDS; i++) {
-    renderElement(cardContainer, new CardView(mockCards[i]).element, renderPosition.BEFOREEND);
-};
+render(siteMainElement, new NavigationView().element, renderPosition.BEFOREEND);
 
-const showMoreButton = new ShowMore().element;
-const filmsListSection = listView.querySelector('.films-list');
-renderElement(filmsListSection, showMoreButton, renderPosition.BEFOREEND);
-//Логика кнопки 'Show more'
-let offset = MAX_CARDS;
-showMoreButton.addEventListener('click', () => {
-  const nextFive = mockCards.slice(offset, offset + MAX_CARDS);
-  nextFive.forEach((card) => {
-    renderElement(cardContainer, new CardView(card).element, renderPosition.BEFOREEND);
-  });
-  offset += MAX_CARDS;
-  if (offset >= mockCards.length) {
-    showMoreButton.classList.add('visually-hidden');
+if (mockCards.every((card) => card.isArchive)) {
+  render(siteMainElement, new EmptyList().element, renderPosition.BEFOREEND);
+} else {
+  render(siteMainElement, new SortView().element, renderPosition.BEFOREEND);
+
+  const filmsSection = new ListView();
+  render(siteMainElement, filmsSection.element, renderPosition.BEFOREEND);
+  const cardContainer = filmsSection.element.querySelector('.films-list__container');
+  for (let i = 0; i < MAX_CARDS; i++) {
+    renderCard(cardContainer, mockCards[i]);
   }
-});
 
-// renderTemplate(siteMainElement, renderPopupTemplate(renderMockPopup(mockCards[0])), renderPosition.BEFOREEND);
-// const popupWindow = document.querySelector('.film-details');
-// const closePopup = document.querySelector('.film-details__close-btn');
-// closePopup.addEventListener('click', () => {
-//   popupWindow.classList.add('visually-hidden');
-// });
+  const showMoreButton = new ShowMore();
+  const filmsListSection = filmsSection.element.querySelector('.films-list');
+  render(filmsListSection, showMoreButton.element, renderPosition.BEFOREEND);
+  //Логика кнопки 'Show more'
+  let offset = MAX_CARDS;
+  showMoreButton.element.addEventListener('click', () => {
+    const nextFive = mockCards.slice(offset, offset + MAX_CARDS);
+    nextFive.forEach((card) => {
+      renderCard(cardContainer, card);
+    });
+    offset += MAX_CARDS;
+    if (offset >= mockCards.length) {
+      showMoreButton.element.remove();
+      showMoreButton.removeElement();
+    }
+  });
+}

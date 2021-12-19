@@ -1,4 +1,4 @@
-import { createElement } from "./render.js";
+import { createElement } from './render.js';
 
 const renderFilmCard = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments} = card;

@@ -1,7 +1,8 @@
-export const renderFilmCard = (card) => {
+import { createElement } from './render.js';
+
+const renderFilmCard = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments} = card;
-  return `
-      <article class="film-card">
+  return `<article class="film-card">
             <a class="film-card__link">
               <h3 class="film-card__title">${title}</h3>
               <p class="film-card__rating">${rating}</p>
@@ -21,3 +22,28 @@ export const renderFilmCard = (card) => {
             </div>
           </article>`;
 };
+
+export default class CardView {
+  #element = null;
+  #card = null;
+
+  constructor(card) {
+    this.#card = card;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return renderFilmCard(this.#card);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

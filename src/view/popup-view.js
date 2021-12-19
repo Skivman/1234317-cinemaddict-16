@@ -1,5 +1,7 @@
-export const renderPopupTemplate = (popup) => {
-  const {poster, age, title, rating, director, writers, actors, release, runtime, country, genres, description} = popup;
+import { createElement } from '../render';
+
+const renderPopupTemplate = (popup) => {
+  const {poster, age, title, rating, director, writers, actors, year, duration, country, genres, description} = popup;
   return  `<section class="film-details">
   <form class="film-details__inner" action="" method="get">
     <div class="film-details__top-container">
@@ -39,12 +41,12 @@ export const renderPopupTemplate = (popup) => {
               <td class="film-details__cell">${actors}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Release Date</td>
-              <td class="film-details__cell">${release}</td>
+              <td class="film-details__term">Date</td>
+              <td class="film-details__cell">${year}</td>
             </tr>
             <tr class="film-details__row">
-              <td class="film-details__term">Runtime</td>
-              <td class="film-details__cell">${runtime}</td>
+              <td class="film-details__term">Duration</td>
+              <td class="film-details__cell">${duration}</td>
             </tr>
             <tr class="film-details__row">
               <td class="film-details__term">Country</td>
@@ -112,3 +114,28 @@ export const renderPopupTemplate = (popup) => {
   </form>
 </section>`;
 };
+
+export default class PopupView {
+  #element = null;
+  #popup = null;
+
+  constructor(popup) {
+    this.#popup = popup;
+  }
+
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
+    }
+
+    return this.#element;
+  }
+
+  get template() {
+    return renderPopupTemplate(this.#popup);
+  }
+
+  removeElement() {
+    this.#element = null;
+  }
+}

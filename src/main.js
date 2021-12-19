@@ -7,7 +7,7 @@ import PopupView from './view/popup-view.js';
 import NavigationView from './view/navigation-view.js';
 import SortView from './view/list-sort-view.js';
 import EmptyList from './view/list-empty-view.js';
-
+//Общая функция рендера карточек
 const renderCard = (cardListElement, card) => {
   const cardComponent = new CardView(card);
   const cardPopup = new PopupView(card);
@@ -27,15 +27,17 @@ const renderCard = (cardListElement, card) => {
       document.removeEventListener('keydown', onEscKeyDown);
     }
   };
-
+  //Открытие попапа
   cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
     openPopup();
     document.addEventListener('keydown', onEscKeyDown);
+    document.body.classList.add('hide-overflow');
   });
-
+  //Закрытие попапа
   cardPopup.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
     closePopup();
     document.removeEventListener('keydown', onEscKeyDown);
+    document.body.classList.remove('hide-overflow');
   });
 
   render(cardListElement, cardComponent.element, renderPosition.BEFOREEND);

@@ -1,7 +1,7 @@
 import ListView from './view/list-no-extra-view.js';
 import { renderPosition, render } from './render.js';
 import { generateCard } from './mock/mock-data.js';
-import CardView from './film-card-template.js';
+import CardView from './view/film-card-view.js';
 import ShowMore from './view/show-more-button-view.js';
 import PopupView from './view/popup-view.js';
 import NavigationView from './view/navigation-view.js';
@@ -25,16 +25,17 @@ const renderCard = (cardListElement, card) => {
       evt.preventDefault();
       closePopup();
       document.removeEventListener('keydown', onEscKeyDown);
+      document.body.classList.remove('hide-overflow');
     }
   };
   //Открытие попапа
-  cardComponent.element.querySelector('.film-card__link').addEventListener('click', () => {
+  cardComponent.setOpenPopupClickHandler(() => {
     openPopup();
     document.addEventListener('keydown', onEscKeyDown);
     document.body.classList.add('hide-overflow');
   });
   //Закрытие попапа
-  cardPopup.element.querySelector('.film-details__close-btn').addEventListener('click', () => {
+  cardPopup.setClosePopupClickHandler(() => {
     closePopup();
     document.removeEventListener('keydown', onEscKeyDown);
     document.body.classList.remove('hide-overflow');
@@ -68,7 +69,7 @@ if (mockCards.every((card) => card.isArchive)) {
   render(filmsListSection, showMoreButton.element, renderPosition.BEFOREEND);
   //Логика кнопки 'Show more'
   let offset = MAX_CARDS;
-  showMoreButton.element.addEventListener('click', () => {
+  showMoreButton.setClickHandler(() => {
     const nextFive = mockCards.slice(offset, offset + MAX_CARDS);
     nextFive.forEach((card) => {
       renderCard(cardContainer, card);

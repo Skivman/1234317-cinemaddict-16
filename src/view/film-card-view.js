@@ -1,4 +1,4 @@
-import { createElement } from './render.js';
+import AbstractView from './abstract-view.js';
 
 const renderFilmCard = (card) => {
   const {title, rating, year, duration, genre, poster, description, comments} = card;
@@ -23,27 +23,25 @@ const renderFilmCard = (card) => {
           </article>`;
 };
 
-export default class CardView {
-  #element = null;
+export default class CardView extends AbstractView {
   #card = null;
 
   constructor(card) {
+    super();
     this.#card = card;
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get template() {
     return renderFilmCard(this.#card);
   }
 
-  removeElement() {
-    this.#element = null;
+  setOpenPopupClickHandler = (callback) => {
+    this._callback.openClick = callback;
+    this.element.querySelector('.film-card__link').addEventListener('click', this.#openClickHandler);
+  }
+
+  #openClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.openClick();
   }
 }

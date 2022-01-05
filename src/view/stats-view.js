@@ -1,4 +1,6 @@
-export const getStatsTemplate = () => (
+import AbstractView from './abstract-view.js';
+
+const getStatsTemplate = () => (
   `<form action="https://echo.htmlacademy.ru/" method="get" class="statistic__filters">
       <p class="statistic__filters-description">Show stats:</p>
 
@@ -42,3 +44,9 @@ export const getStatsTemplate = () => (
 
   </section>`
 );
+
+export default class StatsView extends AbstractView{
+  get template() {
+    return getStatsTemplate();
+  }
+}

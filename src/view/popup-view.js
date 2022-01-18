@@ -72,7 +72,7 @@ const renderPopupTemplate = (popup) => {
       </section>
     </div>
 
-    <div class="film-details__bottom-container">
+    <div class="film-details__bottom-container">setToggleWatchlistClickHandler
       <section class="film-details__comments-wrap">
         <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
 
@@ -125,6 +125,27 @@ export default class PopupView extends AbstractView {
 
   get template() {
     return renderPopupTemplate(this.#popup);
+  }
+
+  setToggleWatchlistClickHandler = () => {
+    const watchlistButton = this.element.querySelector('#watchlist');
+    watchlistButton.addEventListener('click', () => {
+      watchlistButton.classList.toggle('film-details__control-button--active');
+    });
+  }
+
+  setToggleWatchedClickHandler = () => {
+    const watchedButton = this.element.querySelector('#watched');
+    watchedButton.addEventListener('click', () => {
+      watchedButton.classList.toggle('film-details__control-button--active');
+    });
+  }
+
+  setToggleFavoriteClickHandler = () => {
+    const favoriteButton = this.element.querySelector('#favorite');
+    favoriteButton.addEventListener('click', () => {
+      favoriteButton.classList.toggle('film-details__control-button--active');
+    });
   }
 
   setClosePopupClickHandler = (callback) => {

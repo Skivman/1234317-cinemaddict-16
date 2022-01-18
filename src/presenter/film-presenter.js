@@ -1,5 +1,5 @@
 import CardView from '../view/film-card-view.js';
-import { render, renderPosition } from '../render.js';
+import { render, renderPosition, remove } from '../render.js';
 import PopupView from '../view/popup-view.js';
 
 export default class FilmPresenter {
@@ -16,20 +16,30 @@ export default class FilmPresenter {
       this.#popupComponent = new PopupView(this.#film);
 
       this.#renderCard();
-      this.#handleOpenPopupClick();
-      this.#handleClosePopupClick();
+      this.#filmCardComponent.setOpenPopupClickHandler(this.#handleOpenPopupClick);
+      this.#filmCardComponent.setToggleWatchedButtonClickHandler();
+      this.#filmCardComponent.setToggleWatchListClickHandler();
+      this.#filmCardComponent.setToggleFavoriteClickHandler();
+      this.#popupComponent.setClosePopupClickHandler(this.#handleClosePopupClick);
+      this.#popupComponent.setToggleWatchlistClickHandler();
+      this.#popupComponent.setToggleWatchedClickHandler();
+      this.#popupComponent.setToggleFavoriteClickHandler();
+    }
+
+    destroy = () => {
+      remove(this.#filmCardComponent);
+      remove(this.#popupComponent);
     }
 
     #renderCard = () => {
       render(this.#container, this.#filmCardComponent.element, renderPosition.BEFOREEND);
     }
 
+
     #handleOpenPopupClick = () => {
-      this.#filmCardComponent.setOpenPopupClickHandler(() => {
-        this.#openPopup();
-        document.addEventListener('keydown', this.#onEscKeyDown);
-        document.body.classList.add('hide-overflow');
-      });
+      this.#openPopup();
+      document.addEventListener('keydown', this.#onEscKeyDown);
+      document.body.classList.add('hide-overflow');
     }
 
     #openPopup = () => {
@@ -37,11 +47,9 @@ export default class FilmPresenter {
     }
 
     #handleClosePopupClick = () => {
-      this.#popupComponent.setClosePopupClickHandler(() => {
-        this.#closePopup();
-        document.removeEventListener('keydown', this.#onEscKeyDown);
-        document.body.classList.remove('hide-overflow');
-      });
+      this.#closePopup();
+      document.removeEventListener('keydown', this.#onEscKeyDown);
+      document.body.classList.remove('hide-overflow');
     }
 
     #closePopup = () => {
@@ -57,41 +65,3 @@ export default class FilmPresenter {
       }
     }
 }
-
-//     #renderCard = () => {
-//       this.#filmCardComponent = new CardView(this.#film);
-//       this.#popupComponent = new PopupView(this.#film);
-
-//       const openPopup = () => {
-//         this.#container.appendChild(this.#popupComponent.element);
-//       };
-
-//       const closePopup = () => {
-//         this.#container.removeChild(this.#popupComponent.element);
-//       };
-
-//       const onEscKeyDown = (evt) => {
-//         if (evt.key === 'Escape' || evt.key === 'Esc') {
-//           evt.preventDefault();
-//           closePopup();
-//           document.removeEventListener('keydown', onEscKeyDown);
-//           document.body.classList.remove('hide-overflow');
-//         }
-//       };
-
-//       this.#filmCardComponent.setOpenPopupClickHandler(() => {
-//         openPopup();
-//         document.addEventListener('keydown', onEscKeyDown);
-//         document.body.classList.add('hide-overflow');
-//       });
-
-//       this.#popupComponent.setClosePopupClickHandler(() => {
-//         closePopup();
-//         document.removeEventListener('keydown', onEscKeyDown);
-//         document.body.classList.remove('hide-overflow');
-//       });
-
-
-//       render(this.#container, this.#filmCardComponent.element, renderPosition.BEFOREEND);
-//     }
-// }

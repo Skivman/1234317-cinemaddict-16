@@ -1,6 +1,6 @@
 /* eslint-disable no-mixed-spaces-and-tabs */
 import ListView from '../view/films-section-view.js';
-import { renderPosition, render } from '../render.js';
+import { renderPosition, render, remove } from '../render.js';
 import ShowMore from '../view/show-more-button-view.js';
 import NavigationView from '../view/navigation-view.js';
 import SortView from '../view/list-sort-view.js';
@@ -8,6 +8,7 @@ import EmptyList from '../view/list-empty-view.js';
 import FilmsListSection from '../view/films-list-section-view.js';
 import FilmContainer from '../view/film-container-view.js';
 import FilmPresenter from './film-presenter.js';
+import { updateItem } from '../common.js';
 
 const MAX_CARDS = 5;
 
@@ -22,7 +23,10 @@ export default class FilmListPresenter {
     #navigationComponent = new NavigationView();
     #showMoreComponent = new ShowMore();
 
+    #filmPresenter = new Map();
+
     #filmCards = [];
+    #renderedCardCount = MAX_CARDS;
 
     constructor(listContainer) {
       this.#listContainer = listContainer;
@@ -37,6 +41,11 @@ export default class FilmListPresenter {
       this.#renderFilmsListSection();
       this.#renderFilmContainer();
       this.#renderList();
+    }
+
+    #handleCardChange = (updatedCard) => {
+      this.#filmCards = updateItem(this.#filmCards, updatedCard);
+      this.#filmPresenter.get(updatedCard.id).init(updatedCard);
     }
 
     #renderMainListContainer = () => {
@@ -67,6 +76,13 @@ export default class FilmListPresenter {
       this.#renderCardList();
     }
 
+    #clearCardList = () => {
+      this.#filmPresenter.forEach((presenter) => presenter.destroy());
+      this.#filmPresenter.clear();
+      this.#renderedCardCount = MAX_CARDS;
+      remove(this.#showMoreComponent);
+    }
+
     #renderCardList = () => {
       this.#renderCards(0, Math.min(this.#filmCards.length, MAX_CARDS));
 
@@ -76,18 +92,17 @@ export default class FilmListPresenter {
     }
 
     #renderShowMoreButton = () => {
-      let renderedCardCount = MAX_CARDS;
 
       render(this.#listContainer, this.#showMoreComponent.element, renderPosition.BEFOREEND);
 
       this.#showMoreComponent.setClickHandler(() => {
         this.#filmCards
-          .slice(renderedCardCount, renderedCardCount + MAX_CARDS)
+          .slice(this.#renderedCardCount, this.#renderedCardCount + MAX_CARDS)
           .forEach((filmCard) => this.#renderCard(this.#filmContainerComponent.element, filmCard));
 
-        renderedCardCount += MAX_CARDS;
+        this.#renderedCardCount += MAX_CARDS;
 
-        if (renderedCardCount >= this.#filmCards.length) {
+        if (this.#renderedCardCount >= this.#filmCards.length) {
           this.#showMoreComponent.element.remove();
         }
       });
@@ -102,6 +117,7 @@ export default class FilmListPresenter {
     #renderCard = (container, card) => {
       const cardInContainer = new FilmPresenter();
       cardInContainer.init(container, card);
+      this.#filmPresenter.set(card.id, cardInContainer);
     };
 
     #renderEmptyList = () => {

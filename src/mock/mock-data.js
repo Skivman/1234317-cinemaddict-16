@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { nanoid } from 'nanoid';
 
 //Утилитарная функция случайного индекса массива
 const getRandomIndex = (arr) => arr[(Math.floor(Math.random() * arr.length))];
@@ -88,6 +89,7 @@ export const generateComments = (comment) => Array.from({length: TIMES(5)}, comm
 
 //Описание структуры данных для карточки
 export const generateCard = () => ({
+  id: nanoid(),
   poster: `${getRandomIndex(posters)}`,
   age: `1${Math.floor(Math.random() * 10)}+`,
   title: getRandomIndex(filmTitles),

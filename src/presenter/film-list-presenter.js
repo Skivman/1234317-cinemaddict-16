@@ -28,6 +28,8 @@ export default class FilmListPresenter {
     #filmCards = [];
     #renderedCardCount = MAX_CARDS;
 
+    #sourceFilmCards = [];
+
     constructor(listContainer) {
       this.#listContainer = listContainer;
     }
@@ -41,11 +43,14 @@ export default class FilmListPresenter {
       this.#renderFilmsListSection();
       this.#renderFilmContainer();
       this.#renderList();
+
+      this.#sourceFilmCards = [...filmCards];
     }
 
     #handleCardChange = (updatedCard) => {
       this.#filmCards = updateItem(this.#filmCards, updatedCard);
-      this.#filmPresenter.get(updatedCard.id).init(updatedCard);
+      this.#sourceFilmCards = updateItem(this.#sourceFilmCards, updatedCard);
+      this.#filmPresenter.get(updatedCard.id).init(this.#filmContainerComponent.element, updatedCard);
     }
 
     #renderMainListContainer = () => {
@@ -115,9 +120,9 @@ export default class FilmListPresenter {
     }
 
     #renderCard = (container, card) => {
-      const cardInContainer = new FilmPresenter();
-      cardInContainer.init(container, card);
-      this.#filmPresenter.set(card.id, cardInContainer);
+      const filmPresenter = new FilmPresenter(this.#handleCardChange);
+      filmPresenter.init(container, card);
+      this.#filmPresenter.set(card.id, filmPresenter);
     };
 
     #renderEmptyList = () => {

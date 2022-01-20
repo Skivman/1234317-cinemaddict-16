@@ -76,6 +76,7 @@ const generateDuration = () => `0${Math.floor(Math.random() * 3)} h ${Math.floor
 //Жанры
 const genres = ['Comedy', 'Musical', 'Horror', 'Western'];
 
+
 //Генерация комментария
 export const generateComment = () => ({
   img: `${getRandomIndex(emojiForMockComments)}`,
@@ -103,4 +104,6 @@ export const generateCard = () => ({
   genres: `${getRandomIndex(genres)}`,
   description: getRandomIndex(descriptions),
   comments: `${Math.floor(Math.random() * 10)} comments`,
+  watchlist: false,
+  alreadyWatched: false,
 });
